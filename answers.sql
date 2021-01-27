@@ -67,5 +67,27 @@ SELECT name, capital FROM world WHERE LEFT(name, 1) = LEFT(capital, 1) AND name 
 /* Find the country that has all the vowels and no spaces in its name. */
 SELECT name FROM world WHERE name NOT LIKE '% %' AND name LIKE '%a%' AND name LIKE '%e%' AND name LIKE '%i%' AND name LIKE '%o%' AND name LIKE '%u%';
 
-/*  */
-/*  */
+/* Show the year, subject, and name of Physics winners for 1980 together with the Chemistry winners for 1984. */
+SELECT * FROM nobel WHERE subject = 'Physics' AND yr = 1980 OR subject = 'Chemistry' AND yr = 1984
+
+/* Show the year, subject, and name of winners for 1980 excluding Chemistry and Medicine */
+SELECT * FROM nobel WHERE yr = 1980 AND NOT subject IN ('Chemistry', 'Medicine')
+
+/* List the winners, year and subject where the winner starts with Sir. Show the the most recent first, then by name order. */
+SELECT winner, yr, subject FROM nobel WHERE winner LIKE 'Sir%' ORDER BY yr DESC
+
+/* Show the 1984 winners and subject ordered by subject and winner name; but list Chemistry and Physics last. */
+SELECT winner, subject FROM nobel WHERE yr = 1984 ORDER BY subject IN ('Physics', 'Chemistry'), subject, winner
+
+/* List each country name where the population is larger than that of 'Russia'. */
+SELECT name FROM world WHERE population > (SELECT population FROM world WHERE name='Russia')
+
+/* Show the countries in Europe with a per capita GDP greater than 'United Kingdom'. */
+SELECT name FROM world WHERE gdp/population > (SELECT gdp/population FROM world WHERE name = 'United Kingdom') AND continent = 'Europe'
+
+/* List the name and continent of countries in the continents containing either Argentina or Australia. Order by name of the country. */
+SELECT name, continent FROM world WHERE continent = 'Oceania' OR continent = 'South America' ORDER BY name
+
+/* Which country has a population that is more than Canada but less than Poland? Show the name and the population. */
+SELECT name, population FROM world WHERE population > (SELECT population FROM world WHERE name = 'Canada') AND population < (SELECT population FROM world WHERE name = 'Poland')
+
